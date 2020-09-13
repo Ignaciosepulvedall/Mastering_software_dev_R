@@ -1,0 +1,121 @@
+> ######## PART 1: FACTORIAL FUNCTION##########
+> 
+> ############ FATORIAL LOOP###########
+> factorial_loop<-function(n){
++     total_n=1
++         if(n>0){
++             numeros=c(seq(1:n))
++             for (i in numeros){
++                 total_n=numeros[i]*total_n
++             }
++             return(total_n)
++         }
++         else if(n==0){
++             return(total_n)
++         }
++     else if(n<0){
++         message('Only positive numbers')
++     }}
+> ############ FACTORIAL REDUCE###########
+> library(purrr)
+> factorial_reduce <- function(n) {
++     total_n = 1
++     if (n > 0) {
++         numeros = c(seq(1:n))
++         total_n = reduce(numeros, function(x, y) {
++             x * y
++         })
++         return(total_n)
++     }
++     else if (n == 0) {
++         return(total_n)
++     }
++     else if (n < 0) {
++         message('Only positive numbers')
++     }
++ }
+> ############ FACTORIAL RECURSION#######
+> factorial_recursion <- function(n) {
++     total_n = 1
++     if (n > 0) {
++         total_n = n * factorial_recursion(n - 1)
++         return(total_n)
++     }
++     else if (n == 0) {
++         return(total_n)
++     }
++     else if (n < 0) {
++         message('Only positive numbers')
++     }
++ }
+> 
+> ############ FACTORIAL MEMOIZATION########
+> #TABLA 
+> factorial_table=c(rep(NA,10))
+> factorial_memoization <-function(n){
++     total_n=1
++     if (n > 0) {
++         factorial_table[n]<<- n * factorial_memoization(n - 1)
++         return(factorial_table[n])
++     }
++     else if (n == 0) {
++         return(total_n)
++     }
++     else if (n < 0) {
++         message('Only positive numbers')
++     }
++ }
+> ############ MICROBENCHMARK ########
+> library(microbenchmark)
+Warning message:
+package ‘microbenchmark’ was built under R version 4.0.2 
+> micro_bench<-function(n){
++     microbenchmark(
++         a=factorial_loop(n),
++         b=factorial_recursion(n),
++         c=factorial_reduce(n),
++         d=factorial_memoization(n)
++     )
++ }
+> ###for 20
+> factorial_table=c(rep(NA,20))
+> micro_bench(20)
+Unit: microseconds
+ expr     min       lq      mean   median       uq      max
+    a   6.000   7.3010  68.40409   9.1505  10.4510 5917.400
+    b   9.102   9.9015  70.54007  10.3020  10.9510 5996.201
+    c 116.400 122.1015 230.10005 132.0010 142.2005 6653.601
+    d  11.500  12.5510  92.35604  13.1010  14.1010 7805.901
+ neval
+   100
+   100
+   100
+   100
+> ###for 100
+> factorial_table=c(rep(NA,100))
+> micro_bench(100)
+Unit: microseconds
+ expr     min       lq      mean   median       uq      max
+    a   9.301  11.3515  16.87400  14.0015  16.1010  115.702
+    b  50.601  53.1010  67.89699  56.2510  61.7505  316.901
+    c 231.201 252.9005 320.63002 268.4010 294.8010 1652.801
+    d  62.101  65.2510  82.75200  69.1510  74.7010  639.800
+ neval
+   100
+   100
+   100
+   100
+> ###for 2000
+> factorial_table=c(rep(NA,2000))
+> micro_bench(2000)
+Unit: microseconds
+ expr      min       lq      mean   median        uq       max
+    a   71.500   96.601  124.1639  112.051  134.4505   362.700
+    b 1946.401 2554.401 3052.0120 2802.952 3349.8015  5877.301
+    c 2825.801 3213.551 3760.7939 3444.651 3916.5005  6992.701
+    d 2503.900 3006.400 3643.5559 3248.051 3905.1510 10322.500
+ neval
+   100
+   100
+   100
+   100

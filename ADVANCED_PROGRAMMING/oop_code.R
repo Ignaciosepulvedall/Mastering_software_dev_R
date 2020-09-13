@@ -1,13 +1,12 @@
-## Read in the data
+## Paquetes y datos
 library(readr)
 library(magrittr)
 library(tidyverse)
 source("oop_code.R")
-## Load any other packages that you may need to execute your code
 
 data = read_csv("MIE.csv")
 
-##Function
+## funcion para clase
 make_LD=function(data){
     data_1=data %>% nest(-id)
     structure(data_1,class=c('LongitudinalData'))
@@ -20,9 +19,7 @@ print.LongitudinalData=function(data_2){
     cat("Longitudinal dataset with", length(unique(data_2[['id']])), "subjects")
 }
 print(data_2)
-## Subject 10 doesn't exist
-
-## OTHER FUNCTION and METHODS
+## Definiedo funciones y metodos
 subject = function(data_2, id) UseMethod("subject")
 
 visit = function(subject, visit_id) UseMethod("visit")
@@ -41,11 +38,11 @@ print.SUBJECT_1=function(object){
         cat('Subject ID:',object$id_3)
 }
 
-out = subject(data_2, 10)
-print(out)
+#out = subject(data_2, 10)
+#print(out)
 
-out = subject(data_2, 14)
-print(out)
+#out = subject(data_2, 14)
+#print(out)
 
 summary.SUBJECT_1=function(object_1){
     object_2=object_1$data_4 %>% 
@@ -60,11 +57,11 @@ print.summary=function(object_3){
     object_3$data_5 %>% knitr::kable()
 }
 
-out = subject(data_2, 54) %>% summary
-print(out)
+#out = subject(data_2, 54) %>% summary
+#print(out)
 
-out = subject(data_2, 14) %>% summary
-print(out)
+#out = subject(data_2, 14) %>% summary
+#print(out)
 
 visit.SUBJECT_1=function(subject,visit_id){
     data_6 <- subject$data_4 %>% 
@@ -89,8 +86,8 @@ print.ROOM_1=function(object_4){
     cat("Room:", object_4$room)
 }
 ## Show a summary of the pollutant values
-out = subject(data_2, 44) %>% visit(0) %>% room("bedroom")
-print(out)
+#out = subject(data_2, 44) %>% visit(0) %>% room("bedroom")
+#print(out)
 
 summary.ROOM_1 <- function(object_5) {
     output <- summary(object_5[["data_9"]][["value"]])
@@ -104,5 +101,5 @@ print.Summary <- function(variable) {
 }
 
 
-out = subject(data_2, 44) %>% visit(1) %>% room("living room") %>% summary
-print(out)
+#out = subject(data_2, 44) %>% visit(1) %>% room("living room") %>% summary
+#print(out)
